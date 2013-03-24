@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>connections</key>
+	<dict>
+		<key>7DD3BDE5-A157-42E5-9376-F681FB50A4EE</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>043DA8A5-1982-46C0-8EDB-DE184FF9D690</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A4C54483-DD1A-45BD-A0A0-409E8568853C</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Copy translation of {query} to clipboard.</string>
+			</dict>
+		</array>
+		<key>A4C54483-DD1A-45BD-A0A0-409E8568853C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3C363F4D-E7C4-49DC-83E1-F85D499E9900</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>2D64736E-347D-4EF1-90D6-72E26E1238E7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Aether</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Youdao Translate</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>keyword</key>
+				<string>yd</string>
+				<key>runningsubtext</key>
+				<string>Please Wait</string>
+				<key>script</key>
+				<string>require_once('workflows.php');
+$w = new Workflows();
+$query = urlencode( "{query}" );
+
+$url = "http://fanyi.youdao.com/openapi.do?&amp;keyfrom=PersonalAlfred&amp;key=1030208618&amp;type=data&amp;doctype=json&amp;version=1.1&amp;q=". $query;
+$suggestions = $w-&gt;request( $url );
+$suggestions = json_decode( $suggestions );
+$icon = 'youdao.png';
+
+	$w-&gt;result(
+
+		round(rand(111221,10)), 
+		$query, 
+		implode(", ", $suggestions-&gt;basic-&gt;explains), 
+		$suggestions-&gt;basic-&gt;phonetic, 
+		$icon
+	);
+
+echo $w-&gt;toxml();</string>
+				<key>subtext</key>
+				<string>Input word after space</string>
+				<key>title</key>
+				<string>Youdao Dict</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7DD3BDE5-A157-42E5-9376-F681FB50A4EE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>3C363F4D-E7C4-49DC-83E1-F85D499E9900</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>4</integer>
+				<key>script</key>
+				<string>php -f youdao.php -- '{query}'</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A4C54483-DD1A-45BD-A0A0-409E8568853C</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Translation has copied to clipboard</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>2D64736E-347D-4EF1-90D6-72E26E1238E7</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>http://dict.youdao.com/search?le=eng&amp;q={query}&amp;keyfrom=dict.index</string>
+				<key>utf8</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>043DA8A5-1982-46C0-8EDB-DE184FF9D690</string>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>043DA8A5-1982-46C0-8EDB-DE184FF9D690</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>2D64736E-347D-4EF1-90D6-72E26E1238E7</key>
+		<dict>
+			<key>ypos</key>
+			<real>300</real>
+		</dict>
+		<key>3C363F4D-E7C4-49DC-83E1-F85D499E9900</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>7DD3BDE5-A157-42E5-9376-F681FB50A4EE</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>A4C54483-DD1A-45BD-A0A0-409E8568853C</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>aetherwu.com</string>
+</dict>
+</plist>
